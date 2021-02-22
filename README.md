@@ -88,6 +88,9 @@ ax.plot(x, np.full(len(x), 0.2),
 fig.show()
 ```
 
+![alt text](/img/schema1.png)
+
+
 * Creation des objets `fig`et `ax`
 * Ajout successif de graphiques sur la même figure par l'appel à des methodes de l'objet `ax`
 * Affichage de la figure complète via `fig.show()`
@@ -160,39 +163,158 @@ La lecture des données au format tabulé est l'occasion de se familliariser ave
 La fonction `read_csv` accepte différents [arguments](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.read_csv.html) de format de données très utiles.
 
 ```python
-df = pandas.read_csv()
+df = pandas.read_csv('data/TCL_wt1.tsv',sep='\t', header=0)
 ```
 
 Quel est le type de l'objet `df`?
 ```
+type(df)
+pandas.core.frame.DataFrame
 
+C'est un data frame
 ```
 
 ##### Descriptions d'une table de données
 Que permettent les méthodes suivantes?
 ###### df.shape
 ```
+#Tuple of array dimensions.
+(2024, 7)
 ```
 ###### df.head()
 ```
+df.head()#The first n rows of the caller object. # interprété en HTML, plus qu'un tableau .txt
+
+	Accession	Description	Gene Symbol	Corrected Abundance ratio (1.53)	Log2 Corrected Abundance Ratio	Abundance Ratio Adj. P-Value: (127. T3 Tc WT) / (126. T0 WT)	-LOG10 Adj.P-val
+0	P75936	Basal-body rod modification protein FlgD OS=Es...	flgD	0.075816993	-3.721334942	0.000055	4.260067469
+1	P76231	Uncharacterized protein YeaC OS=Escherichia co...	yeaC	0.092810458	-3.429568818	0.000351	3.45462743
+2	P0A8S9	Flagellar transcriptional regulator FlhD OS=Es...	flhD	0.102614379	-3.284695189	0.000027	4.571899347
+3	P0CE48	Elongation factor Tu 2 OS=Escherichia coli (st...	tufB	#VALEUR!	#VALEUR!	NaN	#VALEUR!
+4	P05706	PTS system glucitol/sorbitol-specific EIIA com...	srlB	0.108496732	-3.204276506	0.019963	1.699767669
+
 ```
 ###### df.tail()
 ```
+df.tail() #Returns the last n rows.
+
+Accession	Description	Gene Symbol	Corrected Abundance ratio (1.53)	Log2 Corrected Abundance Ratio	Abundance Ratio Adj. P-Value: (127. T3 Tc WT) / (126. T0 WT)	-LOG10 Adj.P-val
+2019	P24240	6-phospho-beta-glucosidase AscB OS=Escherichia...	ascB	#VALEUR!	#VALEUR!	NaN	#VALEUR!
+2020	P0A917	Outer membrane protein X OS=Escherichia coli (...	ompX	1.579738562	0.65968582	0.002226	2.652390664
+2021	P02931	Outer membrane protein F OS=Escherichia coli (...	ompF	1.754901961	0.811390435	0.000068	4.16495627
+2022	P0AB40	Multiple stress resistance protein BhsA OS=Esc...	bhsA	1.798039216	0.846424487	0.035928	1.444561032
+2023	P76042	Putative ABC transporter periplasmic-binding p...	ycjN	#VALEUR!	#VALEUR!	NaN	#VALEUR!
+
 ```
+
 ###### df.columns
 ```
+df.columns #The column labels of the DataFrame.
+Index(['Accession', 'Description', 'Gene Symbol',
+       'Corrected Abundance ratio (1.53)', 'Log2 Corrected Abundance Ratio',
+       'Abundance Ratio Adj. P-Value: (127. T3 Tc WT) / (126. T0 WT)',
+       '-LOG10 Adj.P-val'],
+      dtype='object')
 ```
 ###### df.dtypes
 ```
+df.dtypes #This returns a Series with the data type of each column. (Columns with mixed types are stored with the object dtype.)
+Accession                                                        object
+Description                                                      object
+Gene Symbol                                                      object
+Corrected Abundance ratio (1.53)                                 object
+Log2 Corrected Abundance Ratio                                   object
+Abundance Ratio Adj. P-Value: (127. T3 Tc WT) / (126. T0 WT)    float64
+-LOG10 Adj.P-val                                                 object
+dtype: object
 ```
 ###### df.info
 ```
+df.info #Print a concise summary of a DataFrame.
+<bound method DataFrame.info of      Accession                                        Description Gene Symbol  \
+0       P75936  Basal-body rod modification protein FlgD OS=Es...        flgD   
+1       P76231  Uncharacterized protein YeaC OS=Escherichia co...        yeaC   
+2       P0A8S9  Flagellar transcriptional regulator FlhD OS=Es...        flhD   
+3       P0CE48  Elongation factor Tu 2 OS=Escherichia coli (st...        tufB   
+4       P05706  PTS system glucitol/sorbitol-specific EIIA com...        srlB   
+...        ...                                                ...         ...   
+2019    P24240  6-phospho-beta-glucosidase AscB OS=Escherichia...        ascB   
+2020    P0A917  Outer membrane protein X OS=Escherichia coli (...        ompX   
+2021    P02931  Outer membrane protein F OS=Escherichia coli (...        ompF   
+2022    P0AB40  Multiple stress resistance protein BhsA OS=Esc...        bhsA   
+2023    P76042  Putative ABC transporter periplasmic-binding p...        ycjN   
+
+     Corrected Abundance ratio (1.53) Log2 Corrected Abundance Ratio  \
+0                         0.075816993                   -3.721334942   
+1                         0.092810458                   -3.429568818   
+2                         0.102614379                   -3.284695189   
+3                            #VALEUR!                       #VALEUR!   
+4                         0.108496732                   -3.204276506   
+...                               ...                            ...   
+2019                         #VALEUR!                       #VALEUR!   
+2020                      1.579738562                     0.65968582   
+2021                      1.754901961                    0.811390435   
+2022                      1.798039216                    0.846424487   
+2023                         #VALEUR!                       #VALEUR!   
+
+      Abundance Ratio Adj. P-Value: (127. T3 Tc WT) / (126. T0 WT)  \
+0                                              0.000055              
+1                                              0.000351              
+2                                              0.000027              
+3                                                   NaN              
+4                                              0.019963              
+...                                                 ...              
+2019                                                NaN              
+2020                                           0.002226              
+2021                                           0.000068              
+2022                                           0.035928              
+2023                                                NaN              
+
+     -LOG10 Adj.P-val  
+0         4.260067469  
+1          3.45462743  
+2         4.571899347  
+3            #VALEUR!  
+4         1.699767669  
+...               ...  
+2019         #VALEUR!  
+2020      2.652390664  
+2021       4.16495627  
+2022      1.444561032  
+2023         #VALEUR!  
+
+[2024 rows x 7 columns]>
 ```
 ###### df.describe()
 ```
+df.describe() #Generate descriptive statistics.
+	Abundance Ratio Adj. P-Value: (127. T3 Tc WT) / (126. T0 WT)
+count	1.750000e+03
+mean	8.238311e-01
+std	3.506349e-01
+min	1.034030e-08
+25%	1.000000e+00
+50%	1.000000e+00
+75%	1.000000e+00
+max	1.000000e+00
+
 ```
 ###### df.dropna()
 ```
+df.dropna() #Remove missing values. #retourne une nouvelle data frame avec des lignes qui ont sauté (celle où il manquait des infos)
+
+Accession	Description	Gene Symbol	Corrected Abundance ratio (1.53)	Log2 Corrected Abundance Ratio	Abundance Ratio Adj. P-Value: (127. T3 Tc WT) / (126. T0 WT)	-LOG10 Adj.P-val
+0	P75936	Basal-body rod modification protein FlgD OS=Es...	flgD	0.075816993	-3.721334942	0.000055	4.260067469
+1	P76231	Uncharacterized protein YeaC OS=Escherichia co...	yeaC	0.092810458	-3.429568818	0.000351	3.45462743
+2	P0A8S9	Flagellar transcriptional regulator FlhD OS=Es...	flhD	0.102614379	-3.284695189	0.000027	4.571899347
+4	P05706	PTS system glucitol/sorbitol-specific EIIA com...	srlB	0.108496732	-3.204276506	0.019963	1.699767669
+5	P29744	Flagellar hook-associated protein 3 OS=Escheri...	flgL	0.124183007	-3.009460329	0.036746	1.434786589
+...	...	...	...	...	...	...	...
+2011	P77330	Prophage lipoprotein Bor homolog OS=Escherichi...	borD	1.535947712	0.619129104	0.310725	0.507623276
+2016	P02930	Outer membrane protein TolC OS=Escherichia col...	tolC	1.552287582	0.634395861	0.013373	1.873756665
+2020	P0A917	Outer membrane protein X OS=Escherichia coli (...	ompX	1.579738562	0.65968582	0.002226	2.652390664
+2021	P02931	Outer membrane protein F OS=Escherichia coli (...	ompF	1.754901961	0.811390435	0.000068	4.16495627
+2022	P0AB40	Multiple stress resistance protein BhsA OS=Esc...	bhsA	1.798039216	0.846424487	0.035928	1.444561032
+1746 rows × 7 columns
 ```
 
 ##### Accès aux éléments d'une table de données
@@ -203,6 +325,14 @@ values = df[['Description', 'Gene Symbol']]
 
 Quel est le type de `values` ?
 
+```
+type(values)
+pandas.core.frame.DataFrame
+
+values.shape
+(2024, 2)
+```
+
 Verifiez si certaines méthodes de `DataFrame` lui sont applicables.
 Ce type supporte l'accès par indice et les slice `[a:b]`
 
@@ -212,16 +342,46 @@ On peut accéder aux valeurs du DataFrame via des indices ou plages d'indice. La
 Il y a différentes manières de le faire, l'utilisation de `.iloc[slice_ligne,slice_colonne]` constitue une des solutions les plus simples. N'oublions pas que shape permet d'obtenir les dimensions (lignes et colonnes) du DataFrame.
 ###### Acceder aux cinq premières lignes de toutes les colonnes
 ```python
+df.iloc[0:5,]
+	Accession	Description	Gene Symbol	Corrected Abundance ratio (1.53)	Log2 Corrected Abundance Ratio	Abundance Ratio Adj. P-Value: (127. T3 Tc WT) / (126. T0 WT)	-LOG10 Adj.P-val
+0	P75936	Basal-body rod modification protein FlgD OS=Es...	flgD	0.075816993	-3.721334942	0.000055	4.260067469
+1	P76231	Uncharacterized protein YeaC OS=Escherichia co...	yeaC	0.092810458	-3.429568818	0.000351	3.45462743
+2	P0A8S9	Flagellar transcriptional regulator FlhD OS=Es...	flhD	0.102614379	-3.284695189	0.000027	4.571899347
+3	P0CE48	Elongation factor Tu 2 OS=Escherichia coli (st...	tufB	#VALEUR!	#VALEUR!	NaN	#VALEUR!
+4	P05706	PTS system glucitol/sorbitol-specific EIIA com...	srlB	0.108496732	-3.204276506	0.019963	1.699767669
 
 ```
 
 ###### Acceder à toutes les lignes de la dernière colonne
 ```python
+df.iloc[:,6:7]
+
+-LOG10 Adj.P-val
+0	4.260067469
+1	3.45462743
+2	4.571899347
+3	#VALEUR!
+4	1.699767669
+...	...
+2019	#VALEUR!
+2020	2.652390664
+2021	4.16495627
+2022	1.444561032
+2023	#VALEUR!
+2024 rows × 1 columns
 
 ```
 
 ###### Acceder aux cinq premières lignes des colonnes 0, 2 et 3
 ```python
+df.iloc[0:5,[0,2,3]]
+#df.iloc[[0,1,2,3,4],[0,2,3]]
+	Accession	Gene Symbol	Corrected Abundance ratio (1.53)
+0	P75936	flgD	0.075816993
+1	P76231	yeaC	0.092810458
+2	P0A8S9	flhD	0.102614379
+3	P0CE48	tufB	#VALEUR!
+4	P05706	srlB	0.108496732
 
 ```
 
@@ -232,6 +392,7 @@ Le type des valeurs d'une colonne peut être spécifiée:
 * à la lecture
 
 ```python
+# rajouter l'argument na_values='#VALEUR!'
 pandas.read_csv('data/TCL_wt1.tsv', sep="\t",  dtype = {'Accession': str, 'Description': str, 'Gene Symbol': str, 
                                                  'Corrected Abundance ratio (1.53)': np.float,  'Log2 Corrected Abundance Ratio': np.float, 
                                                  'Abundance Ratio Adj. P-Value: (127. T3 Tc WT) / (126. T0 WT)': np.float, '-LOG10 Adj.P-val': np.float})
@@ -240,6 +401,7 @@ pandas.read_csv('data/TCL_wt1.tsv', sep="\t",  dtype = {'Accession': str, 'Descr
 * modifiée à la volée
 
 ```python
+# rajouter .dropna() devant .astype(...
 df = df.astype({'Log2 Corrected Abundance Ratio': float, '-LOG10 Adj.P-val': float } )
 ```
 
