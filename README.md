@@ -393,7 +393,7 @@ Le type des valeurs d'une colonne peut être spécifiée:
 
 ```python
 # rajouter l'argument na_values='#VALEUR!'
-pandas.read_csv('data/TCL_wt1.tsv', sep="\t",  dtype = {'Accession': str, 'Description': str, 'Gene Symbol': str, 
+pandas.read_csv('data/TCL_wt1.tsv', sep="\t", na_values='#VALEUR!, dtype = {'Accession': str, 'Description': str, 'Gene Symbol': str, 
                                                  'Corrected Abundance ratio (1.53)': np.float,  'Log2 Corrected Abundance Ratio': np.float, 
                                                  'Abundance Ratio Adj. P-Value: (127. T3 Tc WT) / (126. T0 WT)': np.float, '-LOG10 Adj.P-val': np.float})
 ```
@@ -401,8 +401,7 @@ pandas.read_csv('data/TCL_wt1.tsv', sep="\t",  dtype = {'Accession': str, 'Descr
 * modifiée à la volée
 
 ```python
-# rajouter .dropna() devant .astype(...
-df = df.astype({'Log2 Corrected Abundance Ratio': float, '-LOG10 Adj.P-val': float } )
+df = df..dropna().astype({'Log2 Corrected Abundance Ratio': float, '-LOG10 Adj.P-val': float } )
 ```
 
 ##### Selection avec contraintes
@@ -429,14 +428,21 @@ df.loc[ df['Gene Symbol'].isin(['fadR', 'arcA'] ) ]
 
 ##### 3. A partir de cette échantillon de ratio d'abondance,  estimez la moyenne <img src="https://render.githubusercontent.com/render/math?math=\mu"> et l'ecart-type <img src="https://render.githubusercontent.com/render/math?math=\sigma"> d'une loi normale.
 ```
-
+Log2(Abundance Ratio)  
+    X barre => mu 
+    S2 => S_2 ≈ sigma^2
 
 ```
 
 ##### 4. Superposez la densité de probabilité de cette loi sur l'histogramme. Attention, la densité de probabilité devra être mis à l'echelle de l'histogramme (cf ci-dessous)
 
+S_2 = n / (n-1) Var(Log2(Abundance Ratio))
+    X barre => mu 
+
+
 
 ```python
+fig, ax = plt.subplots()
 hist = ax.hist(_, bins=100) # draw histogram
 x = np.linspace(min(_), max(_), 100) # generate PDF domain points
 dx = hist[1][1] - hist[1][0] # Get single value bar height
